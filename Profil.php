@@ -15,25 +15,29 @@
 			</div>	
 		</div>		
 		<?php
+		
+			if (isset($_GET["id"])) {
+				session_id($_GET["id"]);
+				session_start();
+				$user = $_SESSION["email"];
 			
-			session_id($_GET("id"));
-			session_start();
-			$user = $_SESSION["email"];
+				include("scripts/LoginTest.php");
 			
-			include("scripts/LoginTest.php");
 			
-		echo '
-			<div class="sidebar" align="center">
-				<form action="scripts/Logout.php" style="margin-top:5%" class="button">
-					<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
-					<button type="submit" >Ausloggen</button>
-			    </form>
-				<form action="Homepage.php" style="margin-top:5%" class="button">
-					<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
-					<button type="submit" >Homepage</button>
-			    </form>
+			
+			echo '
+				<div class="sidebar" align="center">
+					<form action="scripts/Logout.php" style="margin-top:5%" class="button">
+						<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
+						<button type="submit" >Ausloggen</button>
+					</form>
+					<form action="Homepage.php" style="margin-top:5%" class="button">
+						<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
+						<button type="submit" >Homepage</button>
+					</form>
 
-			</div>';
+				</div>';
+			}
 		?>
 		
 		<div class='linkeSeite'>
@@ -45,9 +49,17 @@
 					
 					
 				}
-				$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+				
+				
+				$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 				$pdo->query("SET NAMES 'utf8'");
 				$user = $_SESSION["email"];
+				
+				if (isset($_GET["email"])) {
+					
+					$user = $_GET("email");
+					
+				}
 				
 				$vorname = $pdo->query("SELECT vorname FROM balbook WHERE email = '". $user . "'");
 				foreach ($vorname as $row) {

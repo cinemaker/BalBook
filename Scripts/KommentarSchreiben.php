@@ -11,11 +11,11 @@
 
 			<?php
 				session_start();
-				$email = $_SESSION["email"];
+				$email = $_GET["email"];
 			
 				include("LoginTest.php");
 
-				$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+				$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 				$pdo->query("SET NAMES 'utf8'");
 				
 
@@ -34,7 +34,7 @@
 				echo $text;
 				
 				//Kommentar ID
-				/*$sql = $pdo->query('SELECT MAX(`ID`) FROM Kommentare');
+				$sql = $pdo->query('SELECT MAX(`ID`) FROM Kommentare');
 				foreach ($sql as $row) {
 					$id = $row[0];
 				}
@@ -47,7 +47,7 @@
 					
 					//Zurück zur Homepage
 					header("Location: ../Homepage.php?email=".$email."");
-				*/
+				
 			?>
 		</div>
 

@@ -11,7 +11,7 @@
 			$user = $_GET["email"];
 			
 			//Query
-			$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+			$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 			$pdo->query("SET NAMES 'utf8'");
 			
 			$sql = "UPDATE balbook SET angemeldet = 0 WHERE email = '". $user . "'";

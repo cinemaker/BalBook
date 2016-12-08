@@ -115,7 +115,7 @@
 											<button style="width:100%; type="submit">Posten</button>
 										</form>
 									</div>
-									<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:10px"> </div>
+									<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:0px"> </div>
 								</div>';
 							
 							//KOMMENTAR AUSGABE
@@ -139,20 +139,21 @@
 				//Normalwert = 20
 				$NachrichtenAnzahl = 20;
 				
-				if (isset($_POST["nachrichtenAnzahl"])) {
-					$NachrichtenAnzahl = $_POST["nachrichtenAnzahl"];
+				if (isset($_GET["nachrichtenAnzahl"])) {
+					$NachrichtenAnzahl = $_GET["nachrichtenAnzahl"];
 				}
 				
 				$JetzigeAnzahl = 0;
 				$JetzigeAnzahl = KommentareAuslesen($JetzigeAnzahl,$NachrichtenAnzahl);
 				$counter = 0;				
 				
+				
 				//MEHR KOMMENTARE ANZEIGEN
 				echo '
 					<div class="mehrKommentareLaden">
 						<br>
 						<center>
-						<a class="mehrKommentareLaden" href="http://localhost/test/facebook/Homepage.php?nachrichtenAnzahl='.($NachrichtenAnzahl+20).'" >Mehr Kommentare laden</a>
+						<a class="mehrKommentareLaden" href="Homepage.php?email='.$email.'&id='.$_GET["id"].'&nachrichtenAnzahl='.($NachrichtenAnzahl+20).'" >Mehr Kommentare laden</a>
 						</center>
 					</div>';
 			?>
@@ -191,7 +192,7 @@
 			<div class="textbox" style="height:500px">
 				<?php
 				echo '
-				<form action="scripts/KommentarSchreiben.php" class="button" method="POST">
+				<form action="scripts/KommentarSchreiben.php" class="button" method="GET">
 					<input type="text" name="email" value="'.$_SESSION["email"].'" style="visibility:hidden"> 
 					<textarea name="comment" style="width:100%; height:90%; margin-top:-21px" maxlength="1500" required></textarea>
 					
@@ -251,8 +252,7 @@
 					document.getElementById(nummer.toString().concat("kommentarAdden")).style.display='none';
 					document.getElementById(nummer.toString().concat("kommentarAdden")).style.visibility='hidden';
 					
-					document.getElementById(nummer.toString().concat("filler")).style.marginBottom='-20px';
-
+					document.getElementById(nummer.toString().concat("filler")).style.marginBottom='-10px';
 				}		
 				document.getElementById("sidebar").style['height']=document.getElementById("linkeSeite").clientHeight+"px";	
 				document.getElementById("rechteSeite").style['height']=document.getElementById("linkeSeite").clientHeight+"px";
@@ -265,4 +265,3 @@
 		
 	</body>
 </html>
-

@@ -23,13 +23,16 @@
 								$UserID = $row[0];
 							}
 				
-				$uhrzeit = date("G:i");
+				$uhrzeit = date("G:i:s");
 				
 				$date = date("Y-m-d");
 							
 				if (isset($_GET["comment"])) {
 					
 					$text = $_GET["comment"];
+					
+					echo $text;
+					echo $email;
 					
 				} else {
 					
@@ -43,6 +46,7 @@
 					$id = $row[0];
 				}
 				$id = $id+1;
+				
 				
 				$sql = "INSERT INTO `Kommentare`(`UserID`, `Uhrzeit`, `Datum`, `Text`,`Id`) VALUES ('".$UserID."','".$uhrzeit."','".$date."','".$text."',".$id.")";
 					$pdo->query($sql);
@@ -59,3 +63,4 @@
 		
 	</body>
 </html>
+

@@ -8,17 +8,18 @@
 	<body>
 		<div class='title'>			
 			<div class='LangLebeDasKomIntern'>	
-					<img src="Bilder/Logo.png" width="150px" height="150px"></image>
-					<img src="Bilder/Titel.png" style="height:150px;" ></image>			
+					<img src="bilder/Logo.png" width="150px" height="150px"></image>
+					<img src="bilder/Titel.png" style="height:150px;" ></image>			
 			</div>			
 			<div style="float:top;">	
 			</div>	
 		</div>		
 		<?php
+			
 			session_id($_GET["id"]);
 			session_start();
-			$user = $_SESSION['email'];
-			
+			$email = $_SESSION["email"];
+			$user = $email;
 			include("scripts/LoginTest.php");
 			
 		echo '<div class="sidebar" id="sidebar" align="center">
@@ -34,17 +35,17 @@
 		?>
 		
 		<div class='linkeSeite' id='linkeSeite'>
-
-			<?php
+<?php
 				//NACHRICHTEN LADEN
 			
 				/////////////////////////FUNKTION//////////////////////////
 				function KommentareAuslesen($JetzigeAnzahl,$NachrichtenAnzahl) {
 					
-					$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+					$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 					$pdo->query("SET NAMES 'utf8'");
-					$startPunkte = [];
-					$endPunkte = [];
+					
+					$startPunkte = array();
+					$endPunkte = array();
 					$textlength = 500;
 					
 					//höchste ID finden
@@ -58,7 +59,7 @@
 							//Keine Kommentare mehr vorhanden
 						} else {
 							
-							$UserID = $pdo->query("SELECT UserID FROM kommentare WHERE id=".$id);
+							$UserID = $pdo->query("SELECT UserID FROM Kommentare WHERE id=".$id);
 							foreach ($UserID as $row) {
 								$UserID = $row[0];
 							}
@@ -67,7 +68,6 @@
 							foreach ($email as $row) {
 								$email = $row[0];
 							}
-
 							$vorname = $pdo->query("SELECT vorname FROM balbook WHERE email='".$email."'");
 							foreach ($vorname as $row) {
 								$vorname = $row[0];
@@ -78,12 +78,12 @@
 								$nachname = $row[0];
 							}
 							
-							$uhrzeit = $pdo->query("SELECT uhrzeit FROM kommentare WHERE id=".$id); 
+							$uhrzeit = $pdo->query("SELECT uhrzeit FROM Kommentare WHERE id=".$id); 
 							foreach ($uhrzeit as $row) {
 								$uhrzeit = $row[0];
 							}
 							
-							$text =  $pdo->query("SELECT text FROM kommentare WHERE id=".$id);
+							$text =  $pdo->query("SELECT text FROM Kommentare WHERE id=".$id);
 							foreach ($text as $row) {
 								$text = $row[0];
 							}		
@@ -92,7 +92,6 @@
 							$nachricht = $text;
 							
 							$KommentarNum = $JetzigeAnzahl;
-
 							//KOMMENTAR AUSGABE
 								if (strlen($nachricht) >= $textlength) {
 									$nachricht = substr($nachricht, 0, $textlength) . "<a onclick='komplettenTextanzeigen(" .$KommentarNum.  ");return(false);' href='#' id='".$KommentarNum."link'>" . "..." . "</a>" . "<span class='hiddentext' id='".$KommentarNum."'>" . substr($nachricht, $textlength) . "</span>";
@@ -116,7 +115,7 @@
 											<button style="width:100%; type="submit">Posten</button>
 										</form>
 									</div>
-									<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:10px"> </div>
+									<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:0px"> </div>
 								</div>';
 							
 							//KOMMENTAR AUSGABE
@@ -140,21 +139,21 @@
 				//Normalwert = 20
 				$NachrichtenAnzahl = 20;
 				
-				if (isset($_POST["nachrichtenAnzahl"])) {
-					$NachrichtenAnzahl = $_POST["nachrichtenAnzahl"];
+				if (isset($_GET["nachrichtenAnzahl"])) {
+					$NachrichtenAnzahl = $_GET["nachrichtenAnzahl"];
 				}
 				
 				$JetzigeAnzahl = 0;
-
 				$JetzigeAnzahl = KommentareAuslesen($JetzigeAnzahl,$NachrichtenAnzahl);
 				$counter = 0;				
+				
 				
 				//MEHR KOMMENTARE ANZEIGEN
 				echo '
 					<div class="mehrKommentareLaden">
 						<br>
 						<center>
-						<a class="mehrKommentareLaden" href="http://localhost/test/facebook/Homepage.php?nachrichtenAnzahl='.($NachrichtenAnzahl+20).'" >Mehr Kommentare laden</a>
+						<a class="mehrKommentareLaden" href="Homepage.php?email='.$email.'&id='.$_GET["id"].'&nachrichtenAnzahl='.($NachrichtenAnzahl+20).'" >Mehr Kommentare laden</a>
 						</center>
 					</div>';
 			?>
@@ -168,18 +167,32 @@
 				//}
 			
 			?>
-			
 		</div>
 		<div class='rechteSeite' id="rechteSeite">
 		
 			<div class="freunde">
 			<!-- Freundesliste auf der rechten Seite -->
+				<?php^
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				?>
 			</div>
 		
 			<div class="textbox" style="height:500px">
 				<?php
 				echo '
-				<form action="scripts/KommentarSchreiben.php" class="button" method="POST">
+				<form action="scripts/KommentarSchreiben.php" class="button" method="GET">
 					<input type="text" name="email" value="'.$_SESSION["email"].'" style="visibility:hidden"> 
 					<textarea name="comment" style="width:100%; height:90%; margin-top:-21px" maxlength="1500" required></textarea>
 					
@@ -239,8 +252,7 @@
 					document.getElementById(nummer.toString().concat("kommentarAdden")).style.display='none';
 					document.getElementById(nummer.toString().concat("kommentarAdden")).style.visibility='hidden';
 					
-					document.getElementById(nummer.toString().concat("filler")).style.marginBottom='-20px';
-
+					document.getElementById(nummer.toString().concat("filler")).style.marginBottom='-10px';
 				}		
 				document.getElementById("sidebar").style['height']=document.getElementById("linkeSeite").clientHeight+"px";	
 				document.getElementById("rechteSeite").style['height']=document.getElementById("linkeSeite").clientHeight+"px";
@@ -253,4 +265,3 @@
 		
 	</body>
 </html>
-

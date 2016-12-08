@@ -40,7 +40,7 @@
 			}
 			
 			//Tests vor dem Registrieren
-			$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+			$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 			if ($allThere == true) {
 			if ($passwort == $passwort2) {
 				$bool = false;

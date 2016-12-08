@@ -14,24 +14,31 @@
 				$email = $_GET["email"];
 			
 				include("LoginTest.php");
-
 				$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
 				$pdo->query("SET NAMES 'utf8'");
 				
-
 				
 				$UserID = $pdo->query("SELECT nummer FROM balbook WHERE email='".$email."'");
 							foreach ($UserID as $row) {
 								$UserID = $row[0];
 							}
 				
-				$uhrzeit = date("G:i");
+				$uhrzeit = date("G:i:s");
 				
 				$date = date("Y-m-d");
-									
-				$text = $_SESSION["comment"];
-				echo $email;
-				echo $text;
+							
+				if (isset($_GET["comment"])) {
+					
+					$text = $_GET["comment"];
+					
+					echo $text;
+					echo $email;
+					
+				} else {
+					
+					header("Location: ../LoginScreen.html");
+					
+				}
 				
 				//Kommentar ID
 				$sql = $pdo->query('SELECT MAX(`ID`) FROM Kommentare');
@@ -39,6 +46,7 @@
 					$id = $row[0];
 				}
 				$id = $id+1;
+				
 				
 				$sql = "INSERT INTO `Kommentare`(`UserID`, `Uhrzeit`, `Datum`, `Text`,`Id`) VALUES ('".$UserID."','".$uhrzeit."','".$date."','".$text."',".$id.")";
 					$pdo->query($sql);

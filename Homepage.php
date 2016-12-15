@@ -59,6 +59,9 @@
 							//Keine Kommentare mehr vorhanden
 						} else {
 							
+							
+							
+							
 							$UserID = $pdo->query("SELECT UserID FROM Kommentare WHERE id=".$id);
 							foreach ($UserID as $row) {
 								$UserID = $row[0];
@@ -106,17 +109,37 @@
 									</div>
 									
 									<div class="kommentare infoArea" id="'.$KommentarNum.'kommentarArea"> </div>
-									<br>
-									<div class="kommentarAdden" id="'.$KommentarNum.'kommentarAdden" style="margin-top:-90px; position:relative; z-index:-10; visibility:hidden">
-										<form action="AntwortSchreiben.php" class="kommentarAdden">
-											<div style="width:0px"><input type="text" name="email" value="'.$_SESSION['email'].'" style="visibility:hidden;"> </div>
-											<textarea name="antwort" style="margin-top:-15px; width:100%;" maxlength="150" required></textarea>
+										<br>
+										<div class="kommentarAdden" id="'.$KommentarNum.'kommentarAdden" style="margin-top:-90px; position:relative; z-index:-10; visibility:hidden">
+											<form action="scripts/AntwortSchreiben.php" class="kommentarAdden">
+												<div style="width:0px; height:0px">
+													<input type="text" name="email" value="'.$_SESSION['email'].'" style="visibility:hidden;"> 
+													<input type="text" name="GehtZu" value="'.$KommentarNum.'" style="visibility:hidden;">
+												</div>
+												<textarea name="antwort" style="margin-top:0px; width:100%;" maxlength="150" required></textarea>
 					
-											<button style="width:100%; type="submit">Posten</button>
-										</form>
-									</div>
-									<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:0px"> </div>
-								</div>';
+												<button style="width:100%; type="submit">Posten</button>
+											</form>
+										</div>
+										
+										<div class="kommentarAnzeigen" id="'.$KommentarNum.'kommentarAnzeigen" style="margin-left:15px; margin-top:0px; position:relative; z-index:-10;">										
+										';
+											$UnterkommentarAnzahl = 5;
+											$Anzahl = 0;
+											$zahler = 0;
+											
+											
+											UnterkommentareAuslesesn($KommentarNum,$Anzahl,$UnterkommentarAnzahl);
+											
+											
+										echo '
+											
+										</div>
+		
+										<div class="filler2" id="'.$KommentarNum.'filler" style="margin-bottom:0px"> </div>
+									</div>';
+									
+	
 							
 							//KOMMENTAR AUSGABE
 						}
@@ -130,6 +153,53 @@
 				}
 				
 				
+				
+				function UnterkommentareAuslesesn($KommentarNum,$Anzahl,$ZielAnzahl) {
+					
+					$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
+					$pdo->query("SET NAMES 'utf8'");
+					
+				
+						
+						$aql = $pdo->query('SELECT * FROM Unterkommentare WHERE GehtZu = '.$KommentarNum);
+						foreach ($aql as $row) {
+							if ($Anzahl < $ZielAnzahl) {
+									
+								$sql = $pdo->query('SELECT UserID FROM Unterkommentare WHERE GehtZu = '.$KommentarNum);
+								foreach ($sql as $row) {
+									$von = $row[0];
+								}
+								
+								$sql = $pdo->query('SELECT Vorname FROM balbook WHERE Nummer = '.$von);
+								foreach ($sql as $row) {
+									$Vorname = $row[0];
+								}
+								
+								$sql = $pdo->query('SELECT Nachname FROM balbook WHERE Nummer = '.$von);
+								foreach ($sql as $row) {
+									$Nachname = $row[0];
+								}
+								
+								$sql = $pdo->query('SELECT Text FROM Unterkommentare WHERE GehtZu = '.$KommentarNum);
+								foreach ($sql as $row) {
+									$unterkommentar = $row[0];
+								}	
+									
+									
+								echo '
+									<p class="text">'.$unterkommentar.'</p>
+									<p class="info infoArea">von '.$Vorname.' '.$Nachname.'</p>
+						
+								';
+				
+									
+								$Anzahl++;
+							}	
+						}	
+				
+				}
+				
+				
 				/////////////////////////FUNKTION//////////////////////////
 				
 			
@@ -139,6 +209,7 @@
 				//Normalwert = 20
 				$NachrichtenAnzahl = 20;
 				
+				
 				if (isset($_GET["nachrichtenAnzahl"])) {
 					$NachrichtenAnzahl = $_GET["nachrichtenAnzahl"];
 				}
@@ -146,6 +217,9 @@
 				$JetzigeAnzahl = 0;
 				$JetzigeAnzahl = KommentareAuslesen($JetzigeAnzahl,$NachrichtenAnzahl);
 				$counter = 0;				
+				
+				
+				
 				
 				
 				//MEHR KOMMENTARE ANZEIGEN

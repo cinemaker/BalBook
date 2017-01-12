@@ -1,2 +1,0 @@
-# BalBook
-A Facebook Clone

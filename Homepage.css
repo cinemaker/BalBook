@@ -1,0 +1,123 @@
+.Kopfzeile {
+	width = 100%;
+	
+	background-color: #4286f4;	
+	color: white;
+}
+h1 {
+	padding-top: 60px;
+	padding-bottom: 60px;
+	margin-left: 50px;
+	font-size: 60px;
+	color: white;
+	margin-bottom: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
+}
+
+
+html, body {
+        height: 100%;
+        margin: 0;
+        background-color: #e2edff;
+        font-family: "Arial Black", Gadget, sans-serif;
+        font-size: 14px;
+}
+
+#wrapper {
+    min-height: 100%; 
+}
+
+.Sidebar {
+	background-color: #5492f5;
+	width: 120px;
+	padding-left: 40px;
+	margin-top: 0px;
+	padding-top: 50px;
+	height: 100%;
+	margin-right: 0px;
+	float:left ;
+	overflow: hidden;
+	padding-bottom: 5000;
+	margin-bottom: -5000;
+}
+
+.knopf {
+	background-color: #cbd5e5;
+}
+
+.Kommentareschreiben {
+
+	margin-left:30px;
+	width:80%;
+	
+}
+
+textarea {
+	
+	height:200px;
+	float:left;
+	margin-top: 30px;
+	background-color: #e2edff;
+}
+
+button.posten {
+	background-color: #2e5daa;
+	border: 0;
+	color: white;
+
+}
+
+.nachricht {
+	padding-left: 0px;
+	margin-left: 190px;
+	float: none;
+	background-color: #7aaaf7;
+	width:64%;
+	padding-bottom: 20px;
+}
+
+.text {
+	margin-left: 10px;
+}
+
+.info {
+	font-size: 13px;
+	text-align: right;
+	background-color: #a0c2f9;
+	padding-right: 10px;
+	margin-bottom: 0;
+}
+
+.untereLeiste {
+	background-color: #132849;
+	height: 200px
+	margin-bottom: 30px;
+	color: White;
+	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	z-index: 1;
+	position: absolute;;
+	width: 100%;
+}
+
+.links {
+	font-size: 13px;
+	float: right;
+	background-color: #7aaaf7;
+	margin-bottom: 10px;
+	margin-right: 40px;
+
+}
+
+.mehrKommentareLaden {
+	background-color: #2e5daa;
+	width: 64%;
+	margin-left: 190px;
+	margin-top: 20px;
+	padding-bottom: 20px;
+}

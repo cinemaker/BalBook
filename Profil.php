@@ -1,65 +1,62 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Profil</title>
+<head>
+	<title>Profil</title>
 		<meta charset="utf-8"> 
-		<link rel="stylesheet" href="stylesheet/Profil.css">
-		<link rel="stylesheet" href="stylesheet/SurroundStyle.css">
-	</head>
-	<body>
-		<div class='title'>			
-			<div class='LangLebeDasKomIntern'>	
-					<img src="bilder/Logo.png" width="150px" height="150px"></image>
-					<img src="bilder/Titel.png" style="height:150px;" ></image>			
-			</div>			
-			<div style="float:top;">	
-			</div>	
-		</div>		
-		<?php
-		
+		<link rel="stylesheet" type="text/css" href="Profil.css">
+
+</head>
+<body>
+	<?php 	
+			$modus = 0;
+			if (isset($_GET["email"])) {
+				$modus = $modus + 1;
+			}
 			if (isset($_GET["id"])) {
 				session_id($_GET["id"]);
 				session_start();
-				$user = $_SESSION["email"];
-			
-				include("scripts/LoginTest.php");
-			
-			
-			
-			echo '
-				<div class="sidebar" align="center">
-					<form action="scripts/Logout.php" style="margin-top:5%" class="button">
-						<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
-						<button type="submit" >Ausloggen</button>
-					</form>
-					<form action="Homepage.php" style="margin-top:5%" class="button">
-						<input type="text" name="email" value="'.$user.'" style="visibility:hidden"> 
-						<button type="submit" >Homepage</button>
-					</form>
-
-				</div>';
+				$modus = $modus + 2;
+			} 
+			if ($modus == 0) {
+				header("Location: Loginscreen.php");
 			}
 		?>
-		
-		<div class='linkeSeite'>
-		
-			
+
+		<div class="Kopfzeile">
 			<?php
-				//PROFIL INFORMATIONEN
-				function neueZeile($infos) {
-					
-					
-				}
-				
-				
-				$pdo = new PDO('mysql:host=localhost;dbname=balbook', 'balbook', 'RasPIARDUINO_22');
+				if ($modus == 2) {
+					echo "<a href='Logout.php?id=".$_GET["id"]."'><h1> StudiK2 </h1></a>";	
+				} else {
+					echo "<a href='Loginscreen.php'><h1> StudiK2 </h1></a>";	
+				}			
+  			?>
+
+			<!--links zu startseite-->
+
+		</div>
+
+	<div class="Sidebar" id="sidebar">
+			
+			
+				<?php
+					if ($modus == 2) {
+						
+						echo "<a class='knopf' href='Homepage.php?id=".$_GET["id"]."&email=".$_SESSION["email"]."'>Eigene Posts</a>";
+						echo "<br><br>";
+						echo "<a class='knopf' href='Logout.php?id=".$_GET["id"]."'>Ausloggen</a>";	
+
+					} else {
+						echo "<a class='knopf' href='Loginscreen.php'>Zurück</a>";
+					}					
+  				?>
+			
+
+		</div>
+		<!-- Profil -->
+		<?php
+				$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
 				$pdo->query("SET NAMES 'utf8'");
 				$user = $_SESSION["email"];
-				
-				if (isset($_GET["email"])) {
-					
-					$user = $_GET("email");
-					
-				}
 				
 				$vorname = $pdo->query("SELECT vorname FROM balbook WHERE email = '". $user . "'");
 				foreach ($vorname as $row) {
@@ -90,82 +87,29 @@
 				foreach ($birthday as $row) {
 					$birthday = $row[0];
 				}
-
-
-				
 				echo '
-				<img src="Bilder/Platzhalter.png"  height=“400px“>
- 
-				
-				<table border="0" cellpadding="0" cellspacing="0" >
-				
-					<colgroup>
-						<col width="100">
-						<col width="100">
-					</colgroup>
-				
-					<tr>
-						<td> Vorname: </td>			<td> '.$vorname.' </td>
-					</tr>
-					
-					<tr> 
-						<td> Nachname: </td>		<td> '.$nachname.' </td>
-					</tr>
-					
-					<tr> 
-						<td> Geburtsdatum: </td>	<td> '.$birthday.' </td>
-					</tr>
-					
-					<tr> 
-						<td> E-Mail: </td>			<td> '.$user.' </td>
-					</tr>
-					
-					<tr> 
-						<td> Wohnort: </td>			<td> '.$plz.' '.$wohnort.' </td>
-				</table>
-				';
-							
-				
-				
-			echo '<div align=“center“>
-					<form action="Daten_aendern.php" accept-charset="utf-8">
-						<input type="text" name="email" value="'.$user.'" style="visibility:hidden">
-						<input type="submit" value="Persönliche Daten ändern">
-					</form>
-				</div>';
-				
-			?>
-				
-								
-				
+				<form class="profil"> 
+				Name:<input type="text" name="Name" value="'.$vorname.' '.$nachname.'" readonly><br><br>
+				Email:<input type="text" name="Email" value="'.$user.'" readonly><br><br>
+				PLZ:<input type="number" name="PLZ" value="'.$plz.'" readonly><br><br>
+				Wohnort:<input type="text" name="Wohnort" value="'.$wohnort.'" readonly><br><br>
+				Geburtstag:<input type="date" name="geburtstag" value="'.$birthday.'" readonly><br><br>
+				</form>';
+				?>
+		<div>
+			
+
 
 		</div>
-		
-		
-		<div class='rechteSeite'>		
-		</div>
-		
-		
-		
-		
-		<div class="bottomBar">
-			<center>Copyright 2016</center>
+
+
+		<div class="UntereLeiste">
+			<center>Copyright 2017</center>
 			<center>Ein Projekt des Informatikkurs am Gymnasium Balingen</center>
 			<center>Pascal Müller , Philipp Schanz</center>
 			
-			<center>StudieK2 © 2016</center>
+			<center>StudiK2 © 2017</center>
 			<center>Herr Schäfer übernimmt volle Haftung</center>
-		</div>	
-		
-		
-		
-		
-		
-		<!-- JAVASCRIPT -->
-		<script type="text/javascript">
-	
-		</script>
-		
-	</body>
+		</div>
+</body>
 </html>
-
